@@ -1,4 +1,5 @@
 from models.usuario_model import Usuario
+from utils.validaciones import es_texto_valido
 
 class UsuarioService:
   db_usuarios = [
@@ -20,6 +21,9 @@ class UsuarioService:
   
   @staticmethod
   def crear_usuario(nombre, rol):
+    if not es_texto_valido(nombre) or not es_texto_valido(rol):
+      raise ValueError("Nombre y rol deben ser textos válidos")
+    
     nuevo_id = len(UsuarioService.db_usuarios) + 1
     nuevo_usuario = Usuario(nuevo_id, nombre, rol)
     UsuarioService.db_usuarios.append(nuevo_usuario)
